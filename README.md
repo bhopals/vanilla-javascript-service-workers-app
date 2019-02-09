@@ -71,17 +71,23 @@ PARSED >>>>> INSTALLING >>>> WAITING >>> ACTIVATING >> ACTIVATED > IDLE
     1.  Registration - It represents one instance of a service worker registration intention. Several 
         can be available in error or redundant state. Only one **waiting registration** 
         and one **active registration** should be available at any point.
+        
 
     2.  Controller - It's the service worker that is currently controlling the current navigation 
-        page (the curren HTML). It can be null if no service worker was present during load. (navigator.serviceWorker.controller).
+        page (the curren HTML). It can be null if no service worker was present during load. 
+        
+        Controller can be fetched : (navigator.serviceWorker.controller).
+
 
     3.  Client - One itme in the scipe of the service worker, that can possibly be controlled by it. 
         It can be a document (an HTML page loaded from a tab, a PWA, ir an iframe) or a web worker.
 
         A service workers can have **n** clients
 
+
     4.  Controlled Clients - A client that is currently controlled by the service worker because 
         it was either loaded when the service worker was active, or the service worker claimerd it after activation.
+
 
     5. Uncontrolled Client - A client uncontrolled by the service worker because it was either loaded 
         when no service worker was available, or it was loaded with a special navigation action.
