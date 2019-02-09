@@ -142,3 +142,7 @@ Browsers do **byte-to-byte** comparison to check (check algorithm) if the servic
 
 To manually trigger Service Worker update, we can use "registeration.update();"
 
+#### Service Worker Registration/Unregisteration
+
+ -  navigator.serviceWorker.register....
+ 

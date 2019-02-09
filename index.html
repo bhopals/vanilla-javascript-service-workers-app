@@ -9,16 +9,23 @@
     <h2>Service Worker App</h2>
     <output></output>
     <button onclick="update()">Update</button>
+    <button onclick="unregister()">unregister</button>
     <script>
 
         function update() {
-            if('serviceWorker' in navigator){
-                navigator.serviceWorker.getRegistration().then(registeration => {
-                    registeration.update();
-                }).catch(error => {
-                    console.log("Error in updating Service Worker");
-                })
-            }
+            navigator.serviceWorker.getRegistration().then(registeration => {
+                registeration.update();
+            }).catch(error => {
+                console.log("Error in updating Service Worker");
+            })
+        }
+
+        function unregister() {
+            navigator.serviceWorker.getRegistration().then(registeration => {
+                registeration.unregister();
+            }).catch(error => {
+                console.log("Error in updating Service Worker");
+            })
         }
 
         if('serviceWorker' in navigator) {
