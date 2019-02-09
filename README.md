@@ -71,7 +71,7 @@ PARSED >>>>> INSTALLING >>>> WAITING >>> ACTIVATING >> ACTIVATED > IDLE
     1.  Registration - It represents one instance of a service worker registration intention. Several 
         can be available in error or redundant state. Only one **waiting registration** 
         and one **active registration** should be available at any point.
-        
+
 
     2.  Controller - It's the service worker that is currently controlling the current navigation 
         page (the curren HTML). It can be null if no service worker was present during load. 
@@ -95,3 +95,30 @@ PARSED >>>>> INSTALLING >>>> WAITING >>> ACTIVATING >> ACTIVATED > IDLE
 
 
 ### Working with Service Workers ###
+
+Initialize the service workers
+
+```
+
+self.addEventListener('install', event => {
+    console.log("Install event");
+    
+})
+
+self.addEventListener('activate', event => {
+    console.log("Activate event");
+    
+});
+
+```
+
+Within the service workers, you cannot access User Interface API. For example, if from Service Workers Global scope, we try to execute "alert()", it wil throw an error, stating that 'alert is not defined'.
+
+Also, if execute 'this' from service worker global scope, it will return Service Workers Object reference.
+
+**Browser Options**
+In Dev tool, *Application*  section you will find these three options
+    1. Offline - For caching and offline functionality
+    2. Update on reload - Register a new Service Wroker everytime the browser reload and refresh
+    3. By pass for network - For caching and offline functionality
+

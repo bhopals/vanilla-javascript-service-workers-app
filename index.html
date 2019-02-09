@@ -11,7 +11,7 @@
     
     <script>
         if('serviceWorker' in navigator) {
-            navigator.serviceWorker.register("./serviceworker.js")
+            navigator.serviceWorker.register("./serviceworker.js",{scope:"/"})
             .then(registeraton => {
                 document.querySelector('output').innerHTML = "Service Worker registered successfully";
             })
