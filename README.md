@@ -122,3 +122,23 @@ In Dev tool, *Application*  section you will find these three options
     2. Update on reload - Register a new Service Wroker everytime the browser reload and refresh
     3. By pass for network - For caching and offline functionality
 
+#### Load External Files ####
+In service Worker file, we can load external Javascript files by using importScripts method, 
+which loads scripts Syncronously.
+
+```
+Example :
+
+//Sycronously loading single script.
+importScripts("events.js");
+
+//Sycronously loading multiple scripts.
+//The download will happen parallel; however, it will be executed in sequence
+importScripts("events.js", "tour.js");
+
+```
+
+Browsers do **byte-to-byte** comparison to check (check algorithm) if the service worker file is updated. The refresh happened once the max cache time configured in browser expired.
+
+To manually trigger Service Worker update, we can use "registeration.update();"
+

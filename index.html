@@ -8,21 +8,57 @@
 <body>
     <h2>Service Worker App</h2>
     <output></output>
-    
+    <button onclick="update()">Update</button>
     <script>
+
+        function update() {
+            if('serviceWorker' in navigator){
+                navigator.serviceWorker.getRegistration().then(registeration => {
+                    registeration.update();
+                }).catch(error => {
+                    console.log("Error in updating Service Worker");
+                })
+            }
+        }
+
         if('serviceWorker' in navigator) {
+            
+            //To register Service Worker
             navigator.serviceWorker.register("./serviceworker.js",{scope:"/"})
             .then(registeraton => {
-                document.querySelector('output').innerHTML = "Service Worker registered successfully";
+                const scope = registeraton.scope;
+                document.querySelector('output').innerHTML = `Service Worker registered successfully ${scope}`;
             })
             .catch(error => {
                 document.querySelector("output").innerHTML = "Service Worker NOT registered";
             })
 
+
+            //To Access Service Worker later on in the application
+            navigator.serviceWorker.getRegistration().then(registeration => {
+                registeration.addEventListener("updatefound", event => {
+                    const swInstalling = registeration.installing;
+                    swInstalling.addEventListener("statechanged", () =>{
+                        if(swInstalling.state == 'installed'){
+                            document.querySelector("output").innerHTML = "A New Service Worker is installed and waiting";
+                        } else {
+                            document.querySelector("output").innerHTML = "A new Service Worker is now controlling the page";
+                        }
+                    })
+                })
+            }).catch(error =>{
+
+            })
+
+
+
+
         } else {
             document.querySelector("output").innerHTML = "Service Workers are not available";
 
         }
+
+
     </script>
 </body>
 </html>
