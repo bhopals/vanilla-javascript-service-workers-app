@@ -7,6 +7,22 @@
 </head>
 <body>
     <h2>Service Worker App</h2>
+    <output></output>
     
+    <script>
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("./serviceworker.js")
+            .then(registeraton => {
+                document.querySelector('output').innerHTML = "Service Worker registered successfully";
+            })
+            .catch(error => {
+                document.querySelector("output").innerHTML = "Service Worker NOT registered";
+            })
+
+        } else {
+            document.querySelector("output").innerHTML = "Service Workers are not available";
+
+        }
+    </script>
 </body>
 </html>
