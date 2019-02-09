@@ -41,3 +41,22 @@ In browser environment we have several things in memory suhc as Browser's Tab, S
 
 Any page can register a service worker.(no limit)
 
+
+ ### Service Workers Functions / What Service Workers can do
+
+ 1. **PWA's (Progressive Web Apps)**  - A service worker is **mandatory** for creating a Progressive Web App. It is responsible for instaling and
+    serving app files.
+    
+ 2. **Offline Web** - A service worker can make a website or webapp available offline, totally or partially. 
+ 3. **Web Performance** - A service worker can cache and serve content locally, even if the user is online.
+ 4. **Replace the Server** - A service worker can detect and make decisions if there are abnormal situations: 
+    server errors, high-latency networ, captive portals. Service workers can detect and make decision about the problems to help the applicaton serve.
+ 5. **Create Local Content** - A service worker can create content on the fly and deliver that contents as 
+    HTTP responses to the web page or web app.
+ 6. **Create Middleware** - A service worker can attach a middleware to network connections.
+
+ 7. **Background Work** - With some limited ability, the service worker can execute code in the background, even if the site is on the screen or not. For example : - Offline Payment, Offline data transfers, or DB data storage.
+
+ 8. **Convert File Format** - The service worker can fetch files from the server and convert them on the fly to another format before sending it to the webpage.
+
+
