@@ -60,13 +60,13 @@ Any page can register a service worker.(no limit)
  8. **Convert File Format** - The service worker can fetch files from the server and convert them on the fly to another format before sending it to the webpage.
 
 
-###Life Cycles of Service Workers###
+### Life Cycles of Service Workers ###
 
 PARSED >>>>> INSTALLING >>>> WAITING >>> ACTIVATING >> ACTIVATED > IDLE
 
 
 
-####Terminology####
+### Terminology ###
 
     1.  Registration - It represents one instance of a service worker registration intention. Several 
         can be available in error or redundant state. Only one **waiting registration** 
@@ -88,4 +88,4 @@ PARSED >>>>> INSTALLING >>>> WAITING >>> ACTIVATING >> ACTIVATED > IDLE
 
 
 
-### Working with Service Workers###
+### Working with Service Workers ###
