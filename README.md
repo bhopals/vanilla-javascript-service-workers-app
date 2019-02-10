@@ -193,8 +193,8 @@ event.respondWith(new Promise((resolve, reject) => {
  -  Most Browsers will keep the data
  -  The only exception is storage pressure
  -  Some browser delete the cache storage if the inactivity detected for a long time (days)
- 
 
+ 
 In some browsers, there is an API available to check for storage capacity.
 ```
 navigator.storage.estimate().then(storage => {
@@ -202,3 +202,10 @@ navigator.storage.estimate().then(storage => {
     //storage.usage
 });
 
+
+NOTE: 
+    -   In CACHE Storage, the owner is the Origin, not the Service Worker
+    -   Several service workers might share the cache
+    -   If you unregister the service worker, you do not delete the caches
+    -   Responses are grouped in caches
+    -   You can access the CacheStorage API not only in Service Workers but also on clients.
