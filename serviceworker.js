@@ -11,5 +11,7 @@ console.log("After Loading eventjs script");
 
 
 self.addEventListener("fetch", event => {
-    console.log("Fetch "+event.request.url);
+    console.log(`Fetching ${event.request.url}`);
+    const response = new Response(`Fetching ${event.request.url}`);
+    event.respondWith(response);
 })

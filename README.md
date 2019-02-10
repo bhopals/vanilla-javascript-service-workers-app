@@ -148,8 +148,11 @@ To manually trigger Service Worker update, we can use "registeration.update();"
 **Fetch**
 ```
 self.addEventListener("fetch", event => {
-    console.log("Fetch"+event.request.url);
+    console.log(`Fetching ${event.request.url}`);
+    const response = new Response(`Fetching ${event.request.url}`);
+    event.respondWith(response);
 });
 
 ```
-Fetch will refire everytime a webpage, a PWA (Progressive Web Rendering), a worker, and scope, is making the request to the network.
+Fetch will refire everytime a webpage, a PWA (Progressive Web Rendering), a worker, and scope, is making the request to the network. Infact, we can responsd to any event with proper response. The response would either be an Response Object (Http Response) or Promise Object.
+
