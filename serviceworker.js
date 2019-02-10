@@ -12,6 +12,15 @@ console.log("After Loading eventjs script");
 
 self.addEventListener("fetch", event => {
    
+    /**
+     * Parsing of the URL
+     */
+
+    const parsedUrl = new URL(event.request.url);
+    if(parsedUrl.pathName === "/") {
+        return;
+    }
+
     const body = `
         <!doctype html>
         <title>Service Worker HTML Generation</title>
