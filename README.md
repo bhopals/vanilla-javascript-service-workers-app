@@ -142,7 +142,14 @@ Browsers do **byte-to-byte** comparison to check (check algorithm) if the servic
 
 To manually trigger Service Worker update, we can use "registeration.update();"
 
-#### Service Worker Registration/Unregisteration
 
- -  navigator.serviceWorker.register....
- 
+#### Acting as a Network Proxy ####
+
+**Fetch**
+```
+self.addEventListener("fetch", event => {
+    console.log("Fetch"+event.request.url);
+});
+
+```
+Fetch will refire everytime a webpage, a PWA (Progressive Web Rendering), a worker, and scope, is making the request to the network.
