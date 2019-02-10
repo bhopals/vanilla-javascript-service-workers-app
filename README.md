@@ -194,14 +194,16 @@ event.respondWith(new Promise((resolve, reject) => {
  -  The only exception is storage pressure
  -  Some browser delete the cache storage if the inactivity detected for a long time (days)
 
- 
+
 In some browsers, there is an API available to check for storage capacity.
+
 ```
 navigator.storage.estimate().then(storage => {
     //storage.quota
     //storage.usage
 });
 
+```
 
 NOTE: 
     -   In CACHE Storage, the owner is the Origin, not the Service Worker
@@ -227,4 +229,54 @@ self.addEventListener("install", event => {
     
 });
 
+```
+
+#### TEST ####
+
+Install - Initialization of the ServiceWorker
+```
+self.addEventListener("install", event => {
+    event.waitUntil(
+        caches.open("california-assets-v1")
+            .then( cache => {
+                cache.addAll(precacheList);
+            }
+        )
+    );
+});
+
+```
+
+Fetch - On any Network call 
+
+//Cache-first Policy
+The requested resources will be served from the CACHE and if not available then the network call will be made.
+This will always prefer the CACHED version over the actual one
+
+```
+self.addEventListener("fetch", event => {
+    event.respondWith(
+        caches.matches(event.request)
+            .then( response => {
+                if(response) {
+                    return response; //CACHED Version
+                } else {
+                    return fetch(event.request); //Network Version
+                }
+            }
+        )
+    );
+});
+
+```
+
+
+//Network-first Policy - Network call for the matched regex will be given preference
+```
+const parsedURL = new URL(event.request.url);
+if(parsedURL.pathName.match(/^\/_css*/)){
+    respondWith(fetch(event.request).catch(error => {
+        console.log("Error...");
+    }));
+}
 ```
