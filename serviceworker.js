@@ -1,32 +1,36 @@
-//sss
-console.log("We are a service Worker");
-
+// version 3
 try {
-    importScripts("event.js");
-} catch (error) {
-    console.log("Error in importing file")
-}
-
-console.log("After Loading eventjs script");
-
+    importScripts("events.js");
+} catch (e) { }
 
 self.addEventListener("fetch", event => {
-   
-    /**
-     * Parsing of the URL
-     */
-
+    console.log(`Fetching ${event.request.url}`);
     const parsedUrl = new URL(event.request.url);
-    if(parsedUrl.pathName === "/") {
+    
+    if (parsedUrl.pathname=="/") {
         return;
     }
-
-    
+    // under /api: /api/weather, /api/currency
+    if (parsedUrl.pathname.match(/^\/api\/*/)) {
+        const object = {
+            temp: 56
+        }
+        const jsonResponse = new Response(JSON.stringify(object), {
+            status: 200,
+            statusText: "OK",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        event.respondWith(jsonResponse);
+    }
 
     const body = `
         <!doctype html>
-        <title>Service Worker HTML Generation</title>
-        <h1> The Url is ${event.request.url}
+        <title>Service Worker HTML generation</title>
+        <h1>
+        The URL is ${event.request.url}
+        </h1>
         <ul>
             <li>Cache: ${event.request.cache}</li>
             <li>Credentials: ${event.request.credential}</li>
@@ -35,25 +39,13 @@ self.addEventListener("fetch", event => {
             <li>Referrer: ${event.request.referrer}</li>
         </ul>
     `;
-
-    if(parsedUrl.pathName.match(/^\/api*\/*/)){
-        const object = {
-            temp:56
-        };
-        const jsonResponse = new Response(body, { });
-        event.respondWith(jsonResponse);
-
-        
-    }
-
-
-    const response = new Response(body, {
-        status : 200,
-        statusText : "OK",
-        headers : {
-            "Content-type":"text/html"
+    const response = new Response(body,
+    {
+        status: 200,
+        statusText: "OK",
+        headers: {
+            "Content-type": "text/html"
         }
-    })
-    event.respondWith(response);//NORMAL RESPONSE
-
-})
+    });
+    event.respondWith(response);
+});
