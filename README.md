@@ -154,5 +154,27 @@ self.addEventListener("fetch", event => {
 });
 
 ```
-Fetch will refire everytime a webpage, a PWA (Progressive Web Rendering), a worker, and scope, is making the request to the network. Infact, we can responsd to any event with proper response. The response would either be an Response Object (Http Response) or Promise Object.
+Fetch will refire everytime a webpage, a PWA (Progressive Web Rendering), a worker, and scope, is making the request to the network. Infact, we can responsd to any event with proper response. The response would either be an Response Object (HTTP Response) or Promise Object.
 
+##### Response Object in Details ####
+String body = "<h1>The bodyText</h1>"
+const response = new Response(body, {
+    status : 200,
+    statusText : "OK",
+    headers : {
+        "Content-type":"text/html"
+    }
+})
+
+
+event.respondWith(response);//NORMAL RESPONSE
+
+event.respondWith(new Promise((resolve, reject) => {
+    fetch("/")
+    .then(response => {
+        console.log("response:"+response.clone().text());
+        resolve(response)
+    })
+}));//PROMISE
+
+#### Request ####
