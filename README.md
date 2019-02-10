@@ -157,6 +157,8 @@ self.addEventListener("fetch", event => {
 Fetch will refire everytime a webpage, a PWA (Progressive Web Rendering), a worker, and scope, is making the request to the network. Infact, we can responsd to any event with proper response. The response would either be an Response Object (HTTP Response) or Promise Object.
 
 ##### Response Object in Details ####
+
+```
 String body = "<h1>The bodyText</h1>"
 const response = new Response(body, {
     status : 200,
@@ -176,4 +178,27 @@ event.respondWith(new Promise((resolve, reject) => {
         resolve(response)
     })
 }));//PROMISE
+
+```
+
+### Cache Storage API ###
+ -  It's a new Storage API available client-side
+ -  Different from IndexedDB, which stores OBJECTs, or Web Storage, which stores STRINGs.
+ -  Keys: HTTP Requests
+ -  Values: HTTP Responses
+ -  It's like a browser cache but managed by our Service Workers
+ -  Different from HTTP cache managed by the browser.
+ -  Limits on Storage depends on the browser 
+    (for example in Chrome, it's 6% of available size on users HardDrive)
+ -  Most Browsers will keep the data
+ -  The only exception is storage pressure
+ -  Some browser delete the cache storage if the inactivity detected for a long time (days)
+ 
+
+In some browsers, there is an API available to check for storage capacity.
+```
+navigator.storage.estimate().then(storage => {
+    //storage.quota
+    //storage.usage
+});
 
