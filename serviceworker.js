@@ -21,6 +21,8 @@ self.addEventListener("fetch", event => {
         return;
     }
 
+    
+
     const body = `
         <!doctype html>
         <title>Service Worker HTML Generation</title>
@@ -33,6 +35,17 @@ self.addEventListener("fetch", event => {
             <li>Referrer: ${event.request.referrer}</li>
         </ul>
     `;
+
+    if(parsedUrl.pathName.match(/^\/api*\/*/)){
+        const object = {
+            temp:56
+        };
+        const jsonResponse = new Response(body, { });
+        event.respondWith(jsonResponse);
+
+        
+    }
+
 
     const response = new Response(body, {
         status : 200,
