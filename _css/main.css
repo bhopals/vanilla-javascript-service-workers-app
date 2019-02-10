@@ -74,7 +74,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 
 html, body {
-	margin: 0; padding: 0;}
+	margin: 100px; padding: 0;}
 
 body {
 	text-align:center;
@@ -416,7 +416,7 @@ span.accent {
 }
 #mainContent #mainArticle h1{
 	font: normal 2em DejaVuSans, Arial, sans-serif;
-	color: #3c6b92;
+	color: blue;
 	margin: 1.2em 0 .2em;
 }
 #mainContent #mainArticle #supportOptions h2{

@@ -280,3 +280,10 @@ if(parsedURL.pathName.match(/^\/_css*/)){
     }));
 }
 ```
+
+//Stale while Revalidate Policy 
+In this case, we would always make the call to Network for the requested resource, and the network response would 
+be stored/replaced in the CACHE only, and finally the cache Response would be returned
+
+NETWORK >>> CACHE
+CACHE >>>> PAGE

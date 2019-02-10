@@ -20,3 +20,63 @@ self.addEventListener("install", event => {
         )
     );
 });
+
+
+self.addEventListener("fetch", event => {
+    const parsedUrl = new URL(event.request.url);
+    if (parsedUrl.pathname.match(/^\/_css*/)) {
+        // Network-first policy
+        // event.respondWith(
+        //     fetch(event.request)
+        //         .catch( error => {
+        //             return caches.match(event.request);
+        //         })
+        // )
+
+        // Stale while Revalidate
+        event.respondWith(
+            caches.match(event.request)
+                .then( response => {
+                    const networkFetch = fetch(event.request)
+                                    .then(networkResponse => {
+                                         return caches.open("california-assets-v1")
+                                            .then( cache => {
+                                                cache.put(
+                                                    event.request,
+                                                    networkResponse.clone()
+                                                )
+                                                return networkResponse
+                                            })
+                                    });
+                    return response || networkFetch;
+                })
+        )
+    } else {
+        // Cache-first policy
+        event.respondWith(
+            caches.match(event.request)
+                .then( response => {
+                    if (response) {
+                        return response; // The URL is cached
+                    } else {
+                        if (parsedUrl.pathname.match(/^\/_fonts*/)) {
+                            const fetchRequest = 
+                                fetch(event.request).then(
+                                    networkResponse => {
+                                        return caches.open("california-fonts")
+                                            .then( cache => {
+                                                cache.put(event.request, networkResponse.clone());
+                                                return networkResponse;
+                                            })
+                                    }
+                                )
+                            return fetchRequest;
+                        } else {
+                            return fetch(event.request); // Go to the network
+                        }
+                    }
+                })
+        );   
+    }
+
+})
