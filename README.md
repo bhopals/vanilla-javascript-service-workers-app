@@ -209,3 +209,22 @@ NOTE:
     -   If you unregister the service worker, you do not delete the caches
     -   Responses are grouped in caches
     -   You can access the CacheStorage API not only in Service Workers but also on clients.
+
+
+Sample program to store in CACHE
+
+```
+const preFetchUrls = ["/","index.html","mission.html", "tours.html"];
+
+self.addEventListener("install", event => {
+
+    event.waitUntil(
+        caches.open("california-assets-v1")
+        .then(cache => {
+            cache.addAll(preFetchUrls);
+        })    
+    );
+    
+});
+
+```
