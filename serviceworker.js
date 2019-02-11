@@ -1,6 +1,6 @@
 const precacheList = [
     "/", "mission.html", "resources.html", "tours.html", 
-    "app.js", "weather.js",
+    "app.js", "weather.js","offline.json",
     "_css/fonts.css", "_css/main.css", "_css/mobile.css", "_css/tablet.css",
     "_images/back_bug.gif", "_images/desert_desc_bug.gif", "_images/nature_desc_bug.gif",
     "_images/backpack_bug.gif", "_images/flag.jpg", "_images/snow_desc_bug.gif",
@@ -15,65 +15,81 @@ self.addEventListener("install", event => {
     event.waitUntil(
         caches.open("california-assets-v2")
             .then( cache => {
-                cache.addAll(precacheList).then(()=>{
-                    alertPagesUpdate();
-                });
+                cache.addAll(precacheList);
             }
         )
     );
 });
 
-function alertPagesUpdate() {
-    clients.matchAll({
-        includeUncontrolled : false,
-        type : "window"
-    }).then(clients => {
-        clients.forEach(client => {
-            client.postMessage({
-                action:"resource-update"
-            })
-        });
-    })
-}
-
-
 self.addEventListener("message", event => {
     const message = event.data;
-    switch(message.action){
-        case "update-resoure" :
+    switch (message.action) {
+        case "update-resources":
             caches.open("california-assets-v2")
                 .then( cache => {
-                    cache.addAll(precacheList);
+                    cache.addAll(precacheList)
+                        .then( () => {
+                            alertPagesUpdate();  
+                        });
                 }
             )
-        break;
+            break;
     }
 });
 
-self.addEventListener("activate", event => {
-    
-    const cacheWhileList = ["california-font","california-assets-v1"];
-        
-    event.waitUntil(
+function alertPagesUpdate() {
+    clients.matchAll({
+        includeUncontrolled: false,
+        type: "window"
+    }).then(clients => {
+        clients.forEach(client => {
+            const clientId = client.id;
+            const type = client.type;
+            const url = client.url;
+            
+            client.postMessage({
+                action: "resources-updated"
+            })
+        })
+    })
+}
 
-        cache.keys()
-            .then(names => {
+self.addEventListener("activate", event => {
+    const cacheWhilelist = ["california-assets-v2", "california-fonts"];
+    event.waitUntil(
+        caches.keys()
+            .then( names => {
                 Promise.all(
-                    names.map(cacheName => {
-                        if(cacheWhileList.indexOf(cacheName)){
+                    names.map( cacheName => {
+                        if (cacheWhilelist.indexOf(cacheName) === -1) {
+                            // we don't need this cacheName
                             return caches.delete(cacheName);
                         }
                     })
                 )
             })
-
-    );
+    )
 });
+
+self.addEventListener("sync", event => {
+    if (event.tag.substring(0, 4)=="vote") {
+        const tourId = event.tag.substring(5);
+        event.waitUntil(
+            fetch(`/vote.json?id=${tourId}`)
+                .then(r => r.json())
+                .then(voted => {
+                    console.log('sync: voted!')
+                })
+            )
+    }
+})
 
 
 self.addEventListener("fetch", event => {
     const parsedUrl = new URL(event.request.url);
-    if (parsedUrl.pathname.match(/^\/_css*/)) {
+    if (parsedUrl.host=="explorecalifornia.org" && !navigator.onLine) {
+        event.respondWith(fetch("offline.json"));
+    } else if (parsedUrl.pathname.match(/^\/_css*/)) {
         // Network-first policy
         // event.respondWith(
         //     fetch(event.request)
@@ -88,7 +104,7 @@ self.addEventListener("fetch", event => {
                 .then( response => {
                     const networkFetch = fetch(event.request)
                                     .then(networkResponse => {
-                                         return caches.open("california-assets-v1")
+                                         return caches.open("california-assets-v2")
                                             .then( cache => {
                                                 cache.put(
                                                     event.request,

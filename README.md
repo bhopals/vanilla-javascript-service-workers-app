@@ -412,6 +412,9 @@ function alertPagesUpdate() {
         includeUncontrolled : false,
         type : "window"
     }).then(clients => {
+        const clientId = client.id;
+        const type = client.type;
+        const url = client.url;
         clients.forEach(client => {
             client.postMessage({
                 action:"resource-update"
@@ -434,3 +437,14 @@ navigator.serviceWorker.addEventListener("message", event=>{
     }
 })
 ```
+
+#### Sync Content/Service API data while Offline ####
+**SyncManager** - It can be used to Background Sync data if its offline and later once the server is Online, 
+the data would be Syncronized automatically.
+
+if("SyncManager" in window) {
+    navigator.serviceWorker.getRegistration()
+    .then(registration => {
+        registration.sync.register(`vote-${tourId}`);
+    }); 
+}
