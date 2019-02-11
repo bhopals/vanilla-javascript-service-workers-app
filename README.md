@@ -448,3 +448,19 @@ if("SyncManager" in window) {
         registration.sync.register(`vote-${tourId}`);
     }); 
 }
+
+
+### Tips and Tricks for Web Performance ###
+
+ -  Readable Streams   : We can recieve and render the contents/chunk in pieces as soon as it is arriving.
+
+ -  Navigation Preload : The browser goes to the server for initial load while running the service worker, if 
+                         this feature is enabled.
+                         self.registration.navigationPreload.enable()
+ 
+ -  Defer Service Worker Registration : We can defer the service worker registeration to use the initial rendering
+    time to actaully render / download website resources, and once done, we can trigger Service Worker Registration.
+    To defer that registartion, the best place to write Service Worker Registration Code in **Window onload** or 
+    **document ready** event.
+
+ - Service Worker skipWaiting : In case when we have multiple service workers running in clients, we can use "skipWaiting" so the next Service Worker will get installed instead of waiting for the first one to stop or become redundant.
