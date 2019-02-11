@@ -13,12 +13,27 @@ const precacheList = [
 
 self.addEventListener("install", event => {
     event.waitUntil(
-        caches.open("california-assets-v1")
+        caches.open("california-assets-v2")
             .then( cache => {
                 cache.addAll(precacheList);
             }
         )
     );
+});
+
+
+
+self.addEventListener("message", event => {
+    const message = event.data;
+    switch(message.action){
+        case "update-resoure" :
+            caches.open("california-assets-v2")
+                .then( cache => {
+                    cache.addAll(precacheList);
+                }
+            )
+        break;
+    }
 });
 
 self.addEventListener("activate", event => {
@@ -38,7 +53,6 @@ self.addEventListener("activate", event => {
                 )
             })
 
-        )
     );
 });
 
