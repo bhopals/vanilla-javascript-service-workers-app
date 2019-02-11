@@ -15,12 +15,26 @@ self.addEventListener("install", event => {
     event.waitUntil(
         caches.open("california-assets-v2")
             .then( cache => {
-                cache.addAll(precacheList);
+                cache.addAll(precacheList).then(()=>{
+                    alertPagesUpdate();
+                });
             }
         )
     );
 });
 
+function alertPagesUpdate() {
+    clients.matchAll({
+        includeUncontrolled : false,
+        type : "window"
+    }).then(clients => {
+        clients.forEach(client => {
+            client.postMessage({
+                action:"resource-update"
+            })
+        });
+    })
+}
 
 
 self.addEventListener("message", event => {

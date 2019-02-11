@@ -381,4 +381,56 @@ function update() {
 
 ```
 
-**To Recieve message in Service Worker**
+**Recieve message in Service Worker**
+Service workers have "message" event that can received all the messages sent from the
+webpage to Service Worker.
+
+```
+self.addEventListener("message", event => {
+    const message = event.data;
+    switch(message.action){
+        case "update-resoure" :
+            caches.open("california-assets-v2")
+                .then( cache => {
+                    cache.addAll(precacheList);
+                }
+            )
+        break;
+    }
+});
+
+```
+
+**Broadcast Message to Clients (from Service Workers to Pages)**
+
+In below snippet, type would denote the clients whom we want to inlcude while broadcasting messages.
+"clients.MatchAll({})" -> all the active tabs,PDA 
+
+```
+function alertPagesUpdate() {
+    clients.matchAll({
+        includeUncontrolled : false,
+        type : "window"
+    }).then(clients => {
+        clients.forEach(client => {
+            client.postMessage({
+                action:"resource-update"
+            })
+        });
+    })
+}
+
+```
+
+**Recieve message in Web Pages sent from Service Worker**
+We need to register an event in the client side that would listen any Messages broadcasted from 
+the Service Worker to Client.
+
+```
+navigator.serviceWorker.addEventListener("message", event=>{
+    switch(event.data.action){
+        case "resource-updates":
+            alert("Message received from Service Worker");
+    }
+})
+```

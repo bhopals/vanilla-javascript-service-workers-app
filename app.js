@@ -1,5 +1,12 @@
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register("serviceworker.js");
+    
+    navigator.serviceWorker.addEventListener("message", event=>{
+        switch(event.data.action){
+            case "resource-updates":
+                alert("Message received from Service Worker");
+        }
+    });
 }
 
 function sendMesageToServiceWorker(message) {
