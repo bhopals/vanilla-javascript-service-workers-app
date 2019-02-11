@@ -330,10 +330,36 @@ self.addEventListener("activate", event => {
  -  Stale while revalidate
  -  Any combination
 
- ** To update cache resources, we can create a manifest file with all asset versions and store that file 
- in local storage. Service worker can check changes while running and upload the cache if required.
+ **Update Cache** -  To update cache resources, we can create a manifest file with all asset versions and store that file in local storage. Service worker can check changes while running and upload the cache if required.
  There are also some tools and libraries available in the market such as Workbook JS, angular/react CLI etc.
  It is all about which approach we use and suitable for our project.
 
- 
-  
+
+
+### Working with API's in the service worker ###
+
+ - Service worker has its own separate context
+ - Sync API can't be executed in service worker, as if we look the thread in service worker then we have problem
+ - Service workers have IndexedDB, NAvigator Objet, Preformanc Timing, WebAssembly
+
+ **But below items are not available in the Service Worker**
+    -   DOM API's
+    -   Window Object
+    -   Web Storage (Local Storage)
+    -   Canvas
+    -   Camera
+
+ **What Available are**
+    -   Cache Storage
+    -   Clients API
+    -   Service Worker's event
+    -   Registration Object
+    (In Modern new browser below API's are also available, but not in every browser)
+    -   PushManager
+    -   SyncManager
+    -   PaymentManager
+    -   NavigationPreloadManager
+
+
+
+
