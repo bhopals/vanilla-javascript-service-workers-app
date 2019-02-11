@@ -320,3 +320,20 @@ self.addEventListener("activate", event => {
 });
 
 ```
+
+
+#### Cache Strategies ####
+
+ -  Precache
+ -  Cache First
+ -  Network First
+ -  Stale while revalidate
+ -  Any combination
+
+ ** To update cache resources, we can create a manifest file with all asset versions and store that file 
+ in local storage. Service worker can check changes while running and upload the cache if required.
+ There are also some tools and libraries available in the market such as Workbook JS, angular/react CLI etc.
+ It is all about which approach we use and suitable for our project.
+
+ 
+  
