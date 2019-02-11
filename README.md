@@ -283,7 +283,9 @@ if(parsedURL.pathName.match(/^\/_css*/)){
 
 //Stale while Revalidate Policy 
 In this case, we would always make the call to Network for the requested resource, and the network response would 
-be stored/replaced in the CACHE only, and finally the cache Response would be returned
+be stored/replaced in the CACHE only, and the old stored cache Response would be returned, at the same time updated.
+That means in the next refresh the last persisted changes in the Cache would be used.
+In other words, each time we are updating the ASSET with the NETWORK call and add that in CACHE.
 
 NETWORK >>> CACHE
 CACHE >>>> PAGE
