@@ -21,6 +21,27 @@ self.addEventListener("install", event => {
     );
 });
 
+self.addEventListener("activate", event => {
+    
+    const cacheWhileList = ["california-font","california-assets-v1"];
+        
+    event.waitUntil(
+
+        cache.keys()
+            .then(names => {
+                Promise.all(
+                    names.map(cacheName => {
+                        if(cacheWhileList.indexOf(cacheName)){
+                            return caches.delete(cacheName);
+                        }
+                    })
+                )
+            })
+
+        )
+    );
+});
+
 
 self.addEventListener("fetch", event => {
     const parsedUrl = new URL(event.request.url);

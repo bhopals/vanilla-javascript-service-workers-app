@@ -289,3 +289,34 @@ In other words, each time we are updating the ASSET with the NETWORK call and ad
 
 NETWORK >>> CACHE
 CACHE >>>> PAGE
+
+
+#### Delete old cache / Manage the cache ####
+
+Once cache install is done, we might want to clear out old cache stored in our local storage. To do that, we can use **activate** event.
+
+First we will create/access a list of Valid Caches. Once retrieved, we can load all the cache stored and if the cache name not present in Valid cache then we can DELETE that cache.
+
+```
+self.addEventListener("activate", event => {
+    
+    const cacheWhileList = ["california-font","california-assets-v1"];
+        
+    event.waitUntil(
+
+        cache.keys()
+            .then(names => {
+                Promise.all(
+                    names.map(cacheName => {
+                        if(cacheWhileList.indexOf(cacheName)){
+                            return caches.delete(cacheName);
+                        }
+                    })
+                )
+            })
+
+        )
+    );
+});
+
+```
