@@ -14,6 +14,7 @@ Service workers play a key role in modern web development. In this project, the 
  - Support high-latency network
 
 
+
  #### Service Workers Definition
     - A w3c Standard spec for web browsers
     - Works on the top of the web worker specification
@@ -28,6 +29,7 @@ Service workers play a key role in modern web development. In this project, the 
     - It has no access to a user interface API
     - No DOM, no window Object
 
+
 #### Scopes
 - Scope  : Origin + Path
 - Origin : Protocol + Host + Port
@@ -35,6 +37,8 @@ Service workers play a key role in modern web development. In this project, the 
 Example : https://mydomain.com/testApp
 
 ** One service worker will be responsible only for one scope
+
+
 
 #### Browser Environment
 In browser environment we have several things in memory suhc as Browser's Tab, Standalone PWA's, Iframes etc, but all will be one scope, which is domain name. Each scope will have only one Service worker. So one Service Worker can be pointing to serveral clients from the same scope, and all clients will be pointing to the same Service Workers.
@@ -58,6 +62,7 @@ Any page can register a service worker.(no limit)
  7. **Background Work** - With some limited ability, the service worker can execute code in the background, even if the site is on the screen or not. For example : - Offline Payment, Offline data transfers, or DB data storage.
 
  8. **Convert File Format** - The service worker can fetch files from the server and convert them on the fly to another format before sending it to the webpage.
+
 
 
 ### Life Cycles of Service Workers ###
@@ -94,6 +99,7 @@ PARSED >>>>> INSTALLING >>>> WAITING >>> ACTIVATING >> ACTIVATED > IDLE
 
 
 
+
 ### Working with Service Workers ###
 
 Initialize the service workers
@@ -112,6 +118,7 @@ self.addEventListener('activate', event => {
 
 ```
 
+
 Within the service workers, you cannot access User Interface API. For example, if from Service Workers Global scope, we try to execute "alert()", it wil throw an error, stating that 'alert is not defined'.
 
 Also, if execute 'this' from service worker global scope, it will return Service Workers Object reference.
@@ -125,6 +132,7 @@ In Dev tool, *Application*  section you will find these three options
 #### Load External Files ####
 In service Worker file, we can load external Javascript files by using importScripts method, 
 which loads scripts Syncronously.
+
 
 ```
 Example :
@@ -180,6 +188,7 @@ event.respondWith(new Promise((resolve, reject) => {
 }));//PROMISE
 
 ```
+
 
 ### Cache Storage API ###
  -  It's a new Storage API available client-side
